@@ -6,6 +6,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <title>CAPITAN AI</title>
   </head>
+<script
+  src="https://js.sentry-cdn.com/7206335fa602877e39614d972b932aa0.min.js"
+  crossorigin="anonymous"
+></script>
+<script>
+  Sentry.onLoad(function() {
+    Sentry.init({
+      dsn: "https://7206335fa602877e39614d972b932aa0@o4511701418115072.ingest.us.sentry.io/4511701461303296",
+    });
+  });
+</script>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
