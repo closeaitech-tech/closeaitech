@@ -336,7 +336,51 @@ function ActivityScreen() {
   );
 }
 
-// ---- Main WalletPage Export ----
+import { Newspaper } from 'lucide-react';   // add to the existing import statement
+import { apiCall } from '../utils/api';     // add at the top if not already there
+
+function NewsScreen() {
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    apiCall('/api/market/news')
+      .then(res => setNews(Array.isArray(res) ? res : (res.news || [])))
+      .catch(() => setNews([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  return (
+    <div>
+      <ScreenHeader title="News" />
+      <div className="px-5 pt-2">
+        {loading ? (
+          <div className="flex justify-center py-8"><Loader2 size={20} className="animate-spin text-zinc-500" /></div>
+        ) : news.length === 0 ? (
+          <p className="text-zinc-500 text-sm text-center py-8">No news available</p>
+        ) : (
+          <div className="space-y-3">
+            {news.slice(0, 20).map((item, i) => (
+              <a
+                key={i}
+                href={item.url || '#'}
+                target="_blank"
+                rel="noreferrer"
+                className="block bg-zinc-800 border border-zinc-700 rounded-xl p-3 hover:border-[var(--accent)] transition"
+              >
+                <h3 className="text-sm font-medium text-zinc-100 mb-1">{item.headline || item.title}</h3>
+                {item.summary && <p className="text-xs text-zinc-400 line-clamp-2">{item.summary}</p>}
+                <span className="text-[10px] text-zinc-500 mt-1">{item.source}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ---- Main WalletPage Export ----
 export default function WalletPage({ toast, onOpenModal }) {
   const { user } = useAuth();
   const {
